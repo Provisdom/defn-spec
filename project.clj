@@ -1,4 +1,4 @@
-(defproject defn-spec "0.1.1-SNAPSHOT"
+(defproject defn-spec "0.1.1"
   :description "A Clojure(Script) wrapper around `defn` that optionally adds
                 checking to a function's args and/or return value via assertions."
   :url "https://github.com/Provisdom/defn-spec"
