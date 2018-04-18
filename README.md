@@ -74,6 +74,14 @@ a regular `defn` form.
      (inc x))
 ```
 
+## Why not `fdef`?
+
+`fdef` requires that you keep the Specs for your function's args and return value
+in a separate location. This approach lets you easily collocate the Specs for your 
+function and its definition.
+
+TODO: Add instrumentation downside
+
 ## License
 
 Copyright © 2018 Provisdom
