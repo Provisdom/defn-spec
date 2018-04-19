@@ -80,7 +80,63 @@ a regular `defn` form.
 in a separate location. This approach lets you easily collocate the Specs for your 
 function and its definition.
 
-TODO: Add instrumentation downside
+It is not easy to instrument initial/global function calls. This is best explained
+by example. Imagine you have an API that has a `reg-event` function. This function 
+takes a keyword ID and a handler function and does some side effecting things 
+(i.e. registers it in a global registrar). Here is our API namespace: 
+
+```clojure
+(ns my-project.api
+  (:require
+    [clojure.spec.alpha :as s]))
+
+(defn reg-event
+  [id handler]
+  ;; do side effecting stuff
+  nil)
+
+(s/fdef reg-event
+        :args (s/cat :id keyword? :handler fn?)
+        :ret nil?)
+
+(reg-event "my-event")
+```
+
+You'll notice we call the `reg-event` function within the api namespace, but our
+call to `reg-event` was incorrect. We do not get a Spec instrumentation error, 
+however. This is confusing because you know that you enabled instrumentation
+in your `dev.user` namespace.
+
+```clojure
+(ns dev.user
+  (:require
+    [clojure.spec.test.alpha :as st]
+    [my-project.api]))
+
+(st/instrument)
+```
+
+Thinking carefully about the order things are executed, we discover the problem.
+
+1. Load `dev.user` in the REPL...
+2. Require `clojure.spec.test.alpha`.
+3. Require `my-project.api`.
+4. Run `(st/instrument)`
+5. ... `dev.user` finished loading.
+
+The call to `instrument` happens **after** we `require`'ed `my-project.api`.
+The incorrect call to `reg-event` in the `my-project.api` namespace was not 
+instrumented when it was executed so we do not get an instrumentation error.
+
+You may think that you can simply include the `instrument` call after every `fdef`
+but that isn't a great idea for a couple reasons. First, it does not scale well.
+You'll need to remember to include the call directly after every `fdef` for every
+one of your globally called functions. Let's hope you don't forget. Second, you
+need a way to ensure the `instrument` call does not occur in production. Maybe
+you wrap `instrument` in a macro to elide its call in production. 
+
+That seems like an awful lot of work to get instrumentation to behave correctly 
+for initial/global function calls. 
 
 ## License
 
