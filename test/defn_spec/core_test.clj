@@ -40,3 +40,15 @@
            (macroexpand-1 '(ds/defn-spec no-asserts "doc" [a] "a"))))
     (is (= '(clojure.core/defn no-asserts ([a] "a") ([a b] "a b"))
            (macroexpand-1 '(ds/defn-spec no-asserts ([a] "a") ([a b] "a b")))))))
+
+(defn instrumented-fn
+  [x]
+  (inc x))
+
+(ds/fdef instrumented-fn
+         :args (s/cat :x number?)
+         :ret number?)
+
+(deftest test-fdef
+  (is (instrumented-fn 1))
+  (is (thrown? ExceptionInfo (instrumented-fn ""))))
