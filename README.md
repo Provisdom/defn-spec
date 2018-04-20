@@ -1,5 +1,7 @@
 # defn-spec
 
+[![CircleCI](https://circleci.com/gh/Provisdom/defn-spec.svg?style=svg)](https://circleci.com/gh/Provisdom/defn-spec)
+
 A Clojure(Script) wrapper around `defn` that optionally adds checking to a 
 function's args and/or return value via assertions.
 
