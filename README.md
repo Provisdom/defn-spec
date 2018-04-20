@@ -86,6 +86,10 @@ cleaned up version of what the macro expands to.
 
 If you set `s/*compile-assers*` to `false`, `fdef` will elide the call to `instrument`.
 
+Keeping your `fdef`'s in a separate namespace from where your function is defined
+results in you falling susceptible to the [initial/global call issue](#why-not-`fdef`?).
+_You Have Been Warned_.
+
 ### In Production
 
 Set `s/*compile-asserts*` to `false` for all `defn-spec` expansions to compile to
