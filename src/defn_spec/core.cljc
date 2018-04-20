@@ -1,7 +1,8 @@
 (ns defn-spec.core
   (:require
     [clojure.spec.alpha :as s]
-    [defn-spec.defn-args :as defn-args]))
+    [defn-spec.defn-args :as defn-args]
+    [clojure.spec.test.alpha :as st]))
 
 (defn assert*
   [kind fn-name spec x]
@@ -23,10 +24,15 @@
                ed)))))
 
 #?(:clj
+   (defn qualify-symbol
+     [sym-name]
+     (symbol (str *ns*) (str sym-name))))
+
+#?(:clj
    (defn- defn-spec-form
      [args]
      (let [{:keys [name docstring meta bs]} (s/conform ::defn-args/defn-args args)
-           qualified-name (symbol (str *ns*) (str name))
+           qualified-name (qualify-symbol name)
            args-spec (or (::s/args meta) (:cljs.spec.alpha/args meta))
            ret-spec (or (::s/ret meta) (:cljs.spec.alpha/ret meta))
            body (let [[arity-type conformed-bodies] bs]
@@ -64,3 +70,13 @@
    (s/fdef defn-spec
            :args ::defn-args/defn-args
            :ret any?))
+
+#?(:clj
+   (defmacro fdef
+     "Exact same parameters as `s/fdef`. Automatically enables instrumentation
+     for `fn-sym` when `s/*compile-asserts*` is true."
+     [fn-sym & specs]
+     `(let [r# (s/fdef ~fn-sym ~@specs)]
+        ~@(when s/*compile-asserts*
+            [`(st/instrument '~(qualify-symbol fn-sym))])
+        r#)))
