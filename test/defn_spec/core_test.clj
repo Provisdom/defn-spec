@@ -5,6 +5,7 @@
     [defn-spec.core :as ds])
   (:import (clojure.lang ExceptionInfo)))
 
+
 (s/check-asserts true)
 
 (ds/defn-spec arity-1-fn
