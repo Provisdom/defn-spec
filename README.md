@@ -113,7 +113,9 @@ a regular `defn` form.
      (inc x))
 ```
 
-## Why not `fdef`?
+## FAQs
+
+### Why not `fdef`?
 
 `fdef` requires that you keep the Specs for your function's args and return value
 in a separate location. This approach lets you easily collocate the Specs for your 
@@ -176,6 +178,16 @@ you wrap `instrument` in a macro to elide its call in production.
 
 That seems like an awful lot of work to get instrumentation to behave correctly 
 for initial/global function calls. 
+
+### How is this different from Orchestra?
+
+[Orchestra](https://github.com/jeaye/orchestra) provides a macro called 
+[defn-spec](https://github.com/jeaye/orchestra#defn-spec). This macro (and Orchestra
+itself) aims to extend Spec's instrumentation functionality, not take the assertion
+approach as this library does. Further, Orchestra's `defn-spec` macro specifies
+a new DSL for specifying a function's `:args` and `:ret` specs, which does not 
+follow Clojure's `defn` format. IDEs (like Cursive) do not have support for this
+new DSL.
 
 ## License
 
