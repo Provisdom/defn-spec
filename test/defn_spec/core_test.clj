@@ -34,12 +34,12 @@
   (is (thrown? ExceptionInfo (n-arity-fn 1 "2")))
   (is (thrown? ExceptionInfo (n-arity-fn -1 0))))
 
-(deftest test-compile-asserts-false
-  (binding [s/*compile-asserts* false]
-    (is (= '(clojure.core/defn no-asserts "doc" [a] "a")
-           (macroexpand-1 '(ds/defn-spec no-asserts "doc" [a] "a"))))
-    (is (= '(clojure.core/defn no-asserts ([a] "a") ([a b] "a b"))
-           (macroexpand-1 '(ds/defn-spec no-asserts ([a] "a") ([a b] "a b")))))))
+(deftest ^:production test-compile-asserts-false
+  (ds/defn-spec no-asserts
+    {::s/args (s/cat :a number? :b (s/? number?))}
+    ([a] "a")
+    ([a b] "a b"))
+  (is (no-asserts "1")))
 
 (defn instrumented-fn
   [x]
