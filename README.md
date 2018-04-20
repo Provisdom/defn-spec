@@ -58,6 +58,9 @@ val: -1 fails predicate: nat-int?
 
 If `defn-spec` is not working, ensure `s/*compile-asserts*` is true.
 
+I suggest checking out [expound](https://github.com/bhb/expound) to greatly improve
+the above error messages.
+
 ### `fdef` automatic instrumentation
 
 If you prefer to keep your function's spec separate from its definition and still
