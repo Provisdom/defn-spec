@@ -182,7 +182,7 @@ for initial/global function calls.
 ### How is this different from Orchestra?
 
 [Orchestra](https://github.com/jeaye/orchestra) provides a macro called 
-[defn-spec](https://github.com/jeaye/orchestra#defn-spec). This macro (and Orchestra
+[defn-spec](https://github.com/jeaye/orchestra#defn-spec). That macro (and Orchestra
 itself) aims to extend Spec's instrumentation functionality, not take the assertion
 approach as this library does. Further, Orchestra's `defn-spec` macro specifies
 a new DSL for specifying a function's `:args` and `:ret` specs, which does not 
