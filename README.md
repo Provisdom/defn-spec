@@ -140,7 +140,7 @@ takes a keyword ID and a handler function and does some side effecting things
         :args (s/cat :id keyword? :handler fn?)
         :ret nil?)
 
-(reg-event "my-event")
+(reg-event "my-event" (fn []))
 ```
 
 You'll notice we call the `reg-event` function within the api namespace, but our
