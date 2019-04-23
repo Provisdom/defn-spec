@@ -4,8 +4,10 @@
   :url "https://github.com/Provisdom/defn-spec"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/spec.alpha "0.1.143"]]
+  :dependencies [[org.clojure/clojure "1.10.0" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.520" :scope "provided"]
+                 [org.clojure/spec.alpha "0.2.176"]
+                 [net.cgrand/macrovich "0.2.1"]]
   :deploy-repositories [["releases" "https://clojars.org/repo"]
                         ["snapshots" "https://clojars.org/repo"]]
   :test-selectors {:default    (complement :production)
