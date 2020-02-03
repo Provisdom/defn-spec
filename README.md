@@ -189,6 +189,11 @@ a new DSL for specifying a function's `:args` and `:ret` specs, which does not
 follow Clojure's `defn` format. IDEs (like Cursive) do not have support for this
 new DSL.
 
+## Tests
+
+- Clojure: `lein test`
+- Clojurescript: `lein doo <js-env>` (ex: `lein doo phantom`)
+
 ## License
 
 Copyright © 2018 Provisdom
