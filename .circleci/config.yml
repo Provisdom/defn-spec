@@ -7,7 +7,7 @@ defaults: &defaults
     JVM_OPTS: -Xmx3200m
 
 jobs:
-  build:
+  test:
     <<: *defaults
 
     steps:
