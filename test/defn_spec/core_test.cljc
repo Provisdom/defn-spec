@@ -16,10 +16,8 @@
    (defmacro is-exception-thrown
      "(is (thrown-with-msg? ...)) for specified exceptions in Clojure/ClojureScript."
      [clj-exc-class cljs-exc-class re expr]
-     (let [is (if (cljs-env? &env) 'cljs.test/is
-                                   'clojure.test/is)
-           exc-class (if (cljs-env? &env) cljs-exc-class
-                                          clj-exc-class)]
+     (let [is (if (cljs-env? &env) 'cljs.test/is 'clojure.test/is)
+           exc-class (if (cljs-env? &env) cljs-exc-class clj-exc-class)]
        `(~is (~'thrown-with-msg? ~exc-class ~re ~expr)))))
 
 #?(:clj
@@ -61,7 +59,7 @@
           (eval `(binding [s/*compile-asserts* false]
                    (macroexpand-1 (quote ~@body))))))
 
-(deftest test-compile-asserts-false
+(deftest  ^:production test-compile-asserts-false
   (without-asserts
     (ds/defn-spec no-asserts
       {::s/args (s/cat :a number? :b (s/? number?))}

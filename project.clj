@@ -11,6 +11,8 @@
                         ["snapshots" "https://clojars.org/repo"]]
   :plugins [[lein-doo "0.1.10"]]
   :doo {:build "test-build"}
+  :test-selectors {:default    (complement :production)
+                   :production :production}
   :cljsbuild
   {:builds [{:id           "test-build"
              :source-paths ["src" "test"]

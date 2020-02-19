@@ -24,6 +24,11 @@ jobs:
           command: |
             export JAVA_TOOL_OPTIONS="-Dclojure.spec.compile-asserts='false'"
             lein test :production
+      - run:
+          name: CLJS Tests
+          command: |
+            sudo apt install phantomjs
+            lein doo phantom once
 
       - save_cache:
           paths:
