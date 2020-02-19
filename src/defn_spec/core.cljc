@@ -2,8 +2,8 @@
   (:require
     [clojure.spec.alpha :as s]
     [defn-spec.defn-args :as defn-args]
-    #?(:clj [clojure.spec.test.alpha :as st]
-       :cljs  [cljs.spec.test.alpha :as st])))
+    #?(:clj  [clojure.spec.test.alpha :as st]
+       :cljs [cljs.spec.test.alpha :as st])))
 
 (defn assert*
   [kind fn-name spec x]
@@ -65,7 +65,7 @@
      Setting `s/*compile-asserts*` to `false` will result in a regular function
      definition."
      {:arglists '([name doc-string? attr-map? [params*] prepost-map? body]
-                   [name doc-string? attr-map? ([params*] prepost-map? body) + attr-map?])}
+                  [name doc-string? attr-map? ([params*] prepost-map? body) + attr-map?])}
      [& args]
      (if s/*compile-asserts*
        (defn-spec-form args)
@@ -73,8 +73,8 @@
 
 #?(:clj
    (s/fdef defn-spec
-           :args ::defn-args/defn-args
-           :ret any?))
+     :args ::defn-args/defn-args
+     :ret any?))
 
 ;; From https://github.com/borkdude/speculative/blob/master/src/speculative/impl.cljc
 #?(:clj (defmacro ?
@@ -85,12 +85,13 @@
               cljs
               clj))))
 
-#?(:clj (defmacro instrument*
-          [symbol]
-          `(? :clj
-              (clojure.spec.test.alpha/instrument ~symbol)
-              :cljs
-              (cljs.spec.test.alpha/instrument ~symbol))))
+#?(:clj
+   (defmacro instrument*
+     [symbol]
+     `(? :clj
+         (clojure.spec.test.alpha/instrument ~symbol)
+         :cljs
+         (cljs.spec.test.alpha/instrument ~symbol))))
 
 #?(:clj
    (defmacro fdef
