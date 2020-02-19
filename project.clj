@@ -12,7 +12,7 @@
   :plugins [[lein-doo "0.1.10"]]
   :profiles {:orchestra {:dependencies [[orchestra "2019.02.06-1"]]}}
   :doo {:build "test-build"}
-  :test-selectors {:default    (complement #{:production :orchestra})
+  :test-selectors {:default    (fn [m] (not (some m #{:production :orchestra})))
                    :production :production
                    :orchestra  :orchestra}
   :cljsbuild
