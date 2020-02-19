@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: circleci/clojure:openjdk-11-lein-2.9.1
+    - image: circleci/clojure:openjdk-11-lein-2.9.1-node-browsers
   environment:
     JVM_OPTS: -Xmx3200m
 
@@ -25,9 +25,11 @@ jobs:
             export JAVA_TOOL_OPTIONS="-Dclojure.spec.compile-asserts='false'"
             lein test :production
       - run:
+          name: Install PhantomJS
+          command: sudo apt install phantomjs
+      - run:
           name: CLJS Tests
           command: |
-            sudo apt install phantomjs
             lein doo phantom once
 
       - save_cache:
