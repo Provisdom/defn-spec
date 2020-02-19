@@ -10,9 +10,11 @@
   :deploy-repositories [["releases" "https://clojars.org/repo"]
                         ["snapshots" "https://clojars.org/repo"]]
   :plugins [[lein-doo "0.1.10"]]
+  :profiles {:orchestra {:dependencies [[orchestra "2019.02.06-1"]]}}
   :doo {:build "test-build"}
-  :test-selectors {:default    (complement :production)
-                   :production :production}
+  :test-selectors {:default    (complement #{:production :orchestra})
+                   :production :production
+                   :orchestra  :orchestra}
   :cljsbuild
   {:builds [{:id           "test-build"
              :source-paths ["src" "test"]

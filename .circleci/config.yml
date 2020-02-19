@@ -20,6 +20,9 @@ jobs:
           name: Dev defn tests
           command: lein test
       - run:
+          name: Orchestra enabled defn tests
+          command: lein with-profile orchestra test :orchestra
+      - run:
           name: Production defn tests
           command: |
             export JAVA_TOOL_OPTIONS="-Dclojure.spec.compile-asserts='false'"
