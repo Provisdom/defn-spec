@@ -12,3 +12,4 @@ pom.xml.asc
 .idea
 .envrc
 *.iml
+out
