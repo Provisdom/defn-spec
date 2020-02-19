@@ -61,10 +61,11 @@
     (is (= -1 (n-arity-fn -1 0)))))
 
 ;; These are only expected to pass it orchestra is on the classpath
-(deftest ^:orchestra test-function-calls-ret-checking
-  (testing "Return value is checked."
-    (is-error-thrown #"did not conform to spec" (arity-1-fn -2)))
-  (is-error-thrown #"did not conform to spec" (n-arity-fn -1 0)))
+#?(:clj
+   (deftest ^:orchestra test-function-calls-ret-checking
+     (testing "Return value is checked."
+       (is-error-thrown #"did not conform to spec" (arity-1-fn -2)))
+     (is-error-thrown #"did not conform to spec" (n-arity-fn -1 0))))
 
 
 #?(:clj
