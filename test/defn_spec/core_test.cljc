@@ -1,10 +1,10 @@
 (ns defn-spec.core-test
+  #?(:cljs (:require-macros [defn-spec.core-test :refer [is-error-thrown is-exception-thrown without-asserts]]))
   (:require
-   #?(:cljs [cljs.test :refer-macros [deftest is testing]]
-      :clj [clojure.test :refer [deftest is testing]])
-   [clojure.spec.alpha :as s]
-   [defn-spec.core :as ds])
-  #?(:cljs (:require-macros [defn-spec.core-test :refer [is-error-thrown is-exception-thrown without-asserts]])))
+    #?(:cljs [cljs.test :refer-macros [deftest is testing]]
+       :clj  [clojure.test :refer [deftest is testing]])
+    [clojure.spec.alpha :as s]
+    [defn-spec.core :as ds]))
 
 #?(:clj
    (defn- cljs-env?
@@ -16,10 +16,8 @@
    (defmacro is-exception-thrown
      "(is (thrown-with-msg? ...)) for specified exceptions in Clojure/ClojureScript."
      [clj-exc-class cljs-exc-class re expr]
-     (let [is (if (cljs-env? &env) 'cljs.test/is
-                                   'clojure.test/is)
-           exc-class (if (cljs-env? &env) cljs-exc-class
-                                          clj-exc-class)]
+     (let [is (if (cljs-env? &env) 'cljs.test/is 'clojure.test/is)
+           exc-class (if (cljs-env? &env) cljs-exc-class clj-exc-class)]
        `(~is (~'thrown-with-msg? ~exc-class ~re ~expr)))))
 
 #?(:clj
@@ -61,12 +59,12 @@
           (eval `(binding [s/*compile-asserts* false]
                    (macroexpand-1 (quote ~@body))))))
 
-(deftest test-compile-asserts-false
+(deftest  ^:production test-compile-asserts-false
   (without-asserts
-   (ds/defn-spec no-asserts
-     {::s/args (s/cat :a number? :b (s/? number?))}
-     ([a] "a")
-     ([a b] "a b")))
+    (ds/defn-spec no-asserts
+      {::s/args (s/cat :a number? :b (s/? number?))}
+      ([a] "a")
+      ([a b] "a b")))
   (is (no-asserts "1")))
 
 (defn instrumented-fn
@@ -74,8 +72,8 @@
   (inc x))
 
 (ds/fdef instrumented-fn
-         :args (s/cat :x number?)
-         :ret number?)
+  :args (s/cat :x number?)
+  :ret number?)
 
 (deftest test-fdef
   (is (instrumented-fn 1))
