@@ -12,7 +12,7 @@ doesn't work, etc.) is appreciated.
 
 [](dependency)
 ```clojure
-[defn-spec "0.1.2"]
+[defn-spec "0.1.3"]
 ```
 [](/dependency)
 
