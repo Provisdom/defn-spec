@@ -36,3 +36,9 @@ jobs:
           paths:
             - ~/.m2
           key: project-{{ checksum "project.clj"}}
+
+workflows:
+  version: 2
+  main-workflow:
+    jobs:
+      - test
