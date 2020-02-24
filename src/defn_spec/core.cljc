@@ -65,9 +65,9 @@
    (defn- defn-spec-form
      [args]
      (let [{:keys [name meta]} (s/conform ::defn-args args)
-           args-spec (or (::s/args meta) (:cljs.spec.alpha/args meta))
-           ret-spec (or (::s/ret meta) (:cljs.spec.alpha/ret meta))
-           fn-spec (or (::s/fn meta) (:cljs.spec.alpha/fn meta))]
+           args-spec (::args meta)
+           ret-spec (::ret meta)
+           fn-spec (::fn meta)]
        `(do
           (defn ~@args)
           (fdef ~name

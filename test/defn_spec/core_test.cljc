@@ -4,7 +4,7 @@
     #?(:cljs [cljs.test :refer-macros [deftest is testing]]
        :clj  [clojure.test :refer [deftest is testing]])
     [clojure.spec.alpha :as s]
-    [defn-spec.core :as ds]))
+    [defn-spec.core :as f]))
 
 #?(:clj
    (defn- cljs-env?
@@ -30,16 +30,16 @@
 
 (s/check-asserts true)
 
-(ds/defn-spec arity-1-fn
-  {::s/args (s/cat :x int?)
-   ::s/ret  nat-int?}
+(f/defn-spec arity-1-fn
+  {::f/args (s/cat :x int?)
+   ::f/ret  nat-int?}
   [x]
   (inc x))
 
-(ds/defn-spec n-arity-fn
+(f/defn-spec n-arity-fn
   "docstring"
-  {::s/args (s/cat :x int? :y (s/? int?))
-   ::s/ret  nat-int?}
+  {::f/args (s/cat :x int? :y (s/? int?))
+   ::f/ret  nat-int?}
   ([x] (n-arity-fn x 0))
   ([x y]
    (+ x y)))
@@ -74,8 +74,8 @@
               (macroexpand-1 (quote ~@body))))))
 
 (without-asserts
-  (ds/defn-spec no-asserts
-    {::s/args (s/cat :a number? :b (s/? number?))}
+  (f/defn-spec no-asserts
+    {::f/args (s/cat :a number? :b (s/? number?))}
     ([a] "a")
     ([a b] "a b")))
 
@@ -86,7 +86,7 @@
   [x]
   (inc x))
 
-(ds/fdef instrumented-fn
+(f/fdef instrumented-fn
   :args (s/cat :x number?)
   :ret number?)
 
