@@ -67,10 +67,11 @@
      (let [{:keys [name meta]} (s/conform ::defn-args args)
            args-spec (::args meta)
            ret-spec (::ret meta)
-           fn-spec (::fn meta)]
+           fn-spec (::fn meta)
+           fdef-sym (if (false? (::instrument? meta)) `s/fdef `fdef)]
        `(do
           (defn ~@args)
-          (fdef ~name
+          (~fdef-sym ~name
             ~@(when-let [s args-spec] [:args s])
             ~@(when-let [s ret-spec] [:ret s])
             ~@(when-let [s fn-spec] [:fn s]))))))
