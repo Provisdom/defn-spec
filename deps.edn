@@ -1,8 +1,10 @@
 {:paths   ["src"]
  :deps    {}
  :aliases {:test        {:extra-paths ["test"]}
-           :test-runner {:extra-deps {lambdaisland/kaocha {:mvn/version "1.0.641"}}
-                         :main-opts  ["-m" "kaocha.runner"]}
+           :test-runner {:extra-deps {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                                                 :sha     "209b64504cb3bd3b99ecfec7937b358a879f55c1"}}
+                         :main-opts  ["-m" "cognitect.test-runner"]}
+           :orchestra   {:extra-deps {orchestra {:mvn/version "2020.07.12-1"}}}
            :cljs        {:extra-deps {thheller/shadow-cljs      {:mvn/version "2.10.14"}
                                       org.clojure/clojurescript {:mvn/version "1.10.764"}}}
            :jar         {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}
