@@ -1,24 +1,20 @@
 version: 2.1
 
-defaults: &defaults
-  docker:
-    - image: circleci/clojure:openjdk-11-lein-2.9.1-node-browsers
-  environment:
-    JVM_OPTS: -Xmx3200m
+orbs:
+  node: circleci/node@3.0.1
 
 jobs:
-  test:
-    <<: *defaults
+  clj-test:
+    docker:
+      - image: circleci/clojure:openjdk-11-tools-deps-1.10.1.547
 
     steps:
       - checkout
-
       - restore_cache:
-          key: project-{{ checksum "project.clj"}}
-
+          key: clj-{{ checksum "deps.edn"}}
       - run:
           name: Dev defn tests
-          command: lein test
+          command: ./bin/test-clj.sh
       - run:
           name: Orchestra enabled defn tests
           command: lein with-profile orchestra test :orchestra
@@ -26,22 +22,36 @@ jobs:
           name: Production defn tests
           command: |
             export JAVA_TOOL_OPTIONS="-Dclojure.spec.compile-asserts='false'"
-            lein test :production
-      - run:
-          name: Install PhantomJS
-          command: sudo apt install phantomjs
-      - run:
-          name: CLJS Tests
-          command: |
-            lein doo phantom once
-
+            ./bin/test-clj.sh --focus-meta :production
       - save_cache:
           paths:
             - ~/.m2
-          key: project-{{ checksum "project.clj"}}
+            - ~/.gitlibs
+          key: clj-{{ checksum "deps.edn"}}
+
+  cljs-test:
+    docker:
+      - image: circleci/clojure:openjdk-11-tools-deps-1.10.1.547-node-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: cljs-{{ checksum "deps.edn"}}
+      - node/install-packages
+      - run:
+          name: Compile CLJS
+          command: npx shadow-cljs compile node-test
+      - run:
+          name: Run CLJS Node tests
+          command: node target/node-test.js
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.gitlibs
+          key: cljs-{{ checksum "deps.edn"}}
 
 workflows:
   version: 2
   main-workflow:
     jobs:
-      - test
+      - clj-test
+      - cljs-test
