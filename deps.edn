@@ -1,0 +1,7 @@
+{:paths   ["src"]
+ :deps    {}
+ :aliases {:test        {:extra-paths ["test"]}
+           :test-runner {:extra-deps {lambdaisland/kaocha {:mvn/version "1.0.641"}}
+                         :main-opts  ["-m" "kaocha.runner"]}
+           :cljs        {:extra-deps {thheller/shadow-cljs      {:mvn/version "2.10.14"}
+                                      org.clojure/clojurescript {:mvn/version "1.10.764"}}}}}
