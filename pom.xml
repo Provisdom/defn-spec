@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>defn-spec</groupId>
   <artifactId>defn-spec</artifactId>
-  <version>0.1.4</version>
+  <version>0.2.0</version>
   <name>defn-spec</name>
   <dependencies>
     <dependency>
