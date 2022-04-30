@@ -65,9 +65,9 @@
    (defn- defn-spec-form
      [args]
      (let [{:keys [name meta]} (s/conform ::defn-args args)
-           args-spec (::args meta)
-           ret-spec (::ret meta)
-           fn-spec (::fn meta)
+           args-spec (::s/args meta)
+           ret-spec (::s/ret meta)
+           fn-spec (::s/fn meta)
            fdef-sym (if (false? (::instrument? meta)) `s/fdef `fdef)]
        `(do
           (defn ~@args)
