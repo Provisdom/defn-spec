@@ -1,12 +1,12 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@3.0.1
+  node: circleci/node@5.0.2
 
 jobs:
   clj-test:
     docker:
-      - image: circleci/clojure:openjdk-11-tools-deps-1.10.1.547
+      - image: cimg/clojure:1.11.1
 
     steps:
       - checkout
@@ -17,7 +17,7 @@ jobs:
           command: ./bin/test-clj.sh --exclude :orchestra
       - run:
           name: Orchestra enabled defn tests
-          command: clojure -A:orchestra:test:test-runner --include :orchestra
+          command: clojure -M:orchestra:test:test-runner --include :orchestra
       - run:
           name: Production defn tests
           command: |
@@ -31,7 +31,7 @@ jobs:
 
   cljs-test:
     docker:
-      - image: circleci/clojure:openjdk-11-tools-deps-1.10.1.547-node-browsers
+      - image: cimg/clojure:1.11.1-browsers
     steps:
       - checkout
       - restore_cache:
