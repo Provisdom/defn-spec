@@ -55,6 +55,8 @@ In: [0] val: "a" fails at: [:x] predicate: int?
 (my-inc -2)
 ExceptionInfo Return value from user/my-inc did not conform to spec:
 val: -1 fails predicate: nat-int?
+;; NOTE: spec does not instrument return values.
+;; For this to work you will need to include Orchestra.
 ```
 
 If `defn-spec` is not working, ensure `s/*compile-asserts*` is true.
