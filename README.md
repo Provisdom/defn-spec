@@ -192,8 +192,15 @@ new DSL.
 
 ## Tests
 
-- Clojure: `lein test`
-- Clojurescript: `lein doo <js-env>` (ex: `lein doo phantom`)
+- Clojure: `./bin/test-clj.sh --exclude :orchestra`
+- Clojure with Orchestra: `clojure -M:orchestra:test:test-runner --include :orchestra`
+- ClojureScript: install the Clojure CLI, Java 21 or later, and Node.js 20.5 or later, then run
+  `npm ci` followed by `npm test`.
+
+The Shadow CLJS versions in `package.json` and `deps.edn` should match. The `:cljs` alias uses
+Shadow CLJS's compatible ClojureScript compiler dependency. Shadow CLJS 3 removes the legacy
+`node-libs-browser` dependency chain that introduced vulnerable crypto packages into the test tooling.
+Run `npm audit --include=dev` to check the complete npm dependency tree.
 
 ## License
 
